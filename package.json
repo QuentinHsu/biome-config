@@ -1,0 +1,40 @@
+{
+  "name": "@example/biome-configs",
+  "version": "0.1.0",
+  "description": "Modular Biome configuration presets for multiple frameworks.",
+  "type": "module",
+  "private": true,
+  "files": [
+    "dist"
+  ],
+  "exports": {
+    ".": {
+      "types": "./dist/types/index.d.ts",
+      "default": "./dist/index.mjs"
+    },
+    "./react": "./dist/react.jsonc",
+    "./next": "./dist/next.jsonc",
+    "./vue": "./dist/vue.jsonc",
+    "./nuxt": "./dist/nuxt.jsonc"
+  },
+  "scripts": {
+    "generate:types": "tsx scripts/generate-biome-types.ts",
+    "prebuild": "pnpm run generate:types",
+    "build": "rslib build && node dist/build.mjs",
+    "lint": "npx biome check ."
+  },
+  "keywords": [
+    "biome",
+    "config",
+    "lint",
+    "formatter"
+  ],
+  "devDependencies": {
+    "@biomejs/biome": "^2.3.0",
+    "@rslib/core": "^0.16.1",
+    "@types/node": "^24.9.1",
+    "json-schema-to-typescript": "^15.0.4",
+    "tsx": "^4.16.2",
+    "typescript": "^5.6.3"
+  }
+}
