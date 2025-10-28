@@ -1,5 +1,5 @@
 {
-  "name": "@example/biome-configs",
+  "name": "@quentinhsu/biome-config",
   "version": "0.1.0",
   "description": "Modular Biome configuration presets for multiple frameworks.",
   "type": "module",
@@ -8,10 +8,7 @@
     "dist"
   ],
   "exports": {
-    ".": {
-      "types": "./dist/types/index.d.ts",
-      "default": "./dist/index.mjs"
-    },
+    ".": "./dist/index.jsonc",
     "./react": "./dist/react.jsonc",
     "./next": "./dist/next.jsonc",
     "./vue": "./dist/vue.jsonc",
