@@ -1,5 +1,10 @@
 # @quentinhsu/biome-config
 
+[![npm version](https://img.shields.io/npm/v/@quentinhsu/biome-config?style=flat-square)](https://www.npmjs.com/package/@quentinhsu/biome-config)
+[![npm downloads](https://img.shields.io/npm/dm/@quentinhsu/biome-config?style=flat-square)](https://www.npmjs.com/package/@quentinhsu/biome-config)
+[![Node.js](https://img.shields.io/badge/node-%3E%3D18-green?style=flat-square)](https://nodejs.org/)
+[![license](https://img.shields.io/npm/l/@quentinhsu/biome-config?style=flat-square)](LICENSE)
+
 A modular Biome configuration preset collection built with Rslib. Includes a comprehensive base configuration with framework-specific overlays (React, Next.js, Vue, Nuxt), ultimately generating `biome.jsonc` files in the `dist/` directory that can be directly extended in projects.
 
 ## Development
