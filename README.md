@@ -7,16 +7,17 @@
 
 A modular Biome configuration preset collection built with Rslib. Includes a comprehensive base configuration with framework-specific overlays (React, Next.js, Vue, Nuxt), ultimately generating `biome.jsonc` files in the `dist/` directory that can be directly extended in projects.
 
-## Development
+## Usage
+
+### Installation
+
+Install this package in your project:
 
 ```bash
-pnpm install
-pnpm build
+pnpm add -D @quentinhsu/biome-config
 ```
 
-The build process first compiles TypeScript modules to `dist/` via Rslib, then executes `dist/build.mjs` to output each preset as a JSONC file.
-
-## Available Presets
+### Available Presets
 
 | Preset | Description | Export |
 | --- | --- | --- |
@@ -27,16 +28,6 @@ The build process first compiles TypeScript modules to `dist/` via Rslib, then e
 | `./nuxt` | Nuxt-specific rules and configuration | `"extends": ["@quentinhsu/biome-config/nuxt"]` |
 
 Each preset inherits from and extends the base configuration with framework-specific file patterns, globals, and linter rules.
-
-## Usage
-
-### Installation
-
-Install this package in your project:
-
-```bash
-pnpm add -D @quentinhsu/biome-config
-```
 
 ### Basic Setup
 
@@ -138,6 +129,26 @@ pnpm biome check .
 # Fix lint issues automatically
 pnpm biome lint . --fix
 ```
+
+## Development
+
+### Setup
+
+```bash
+pnpm install
+pnpm build
+```
+
+The build process first compiles TypeScript modules to `dist/` via Rslib, then executes `dist/build.mjs` to output each preset as a JSONC file.
+
+## Contributing
+
+Found an issue or have a suggestion? Please open an [issue](https://github.com/QuentinHsu/biome-config/issues) on GitHub.
+
+## License
+
+This project is licensed under the MIT License. See the [LICENSE](LICENSE) file for details.
+
 
 
 
