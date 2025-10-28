@@ -28,6 +28,7 @@
     "formatter"
   ],
   "publishConfig": {
+    "provenance": true,
     "access": "public"
   },
   "devDependencies": {
