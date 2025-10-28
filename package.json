@@ -1,9 +1,10 @@
 {
   "name": "@quentinhsu/biome-config",
   "version": "0.1.0",
-  "description": "Modular Biome configuration presets for multiple frameworks.",
+  "author": "QuentinHsu",
+  "repository": "https://github.com/QuentinHsu/biome-config",
+  "description": "Modular Biome configuration presets.",
   "type": "module",
-  "private": true,
   "files": [
     "dist"
   ],
@@ -27,7 +28,6 @@
     "formatter"
   ],
   "publishConfig": {
-    "provenance": true,
     "access": "public"
   },
   "devDependencies": {
