@@ -26,6 +26,10 @@
     "lint",
     "formatter"
   ],
+  "publishConfig": {
+    "provenance": true,
+    "access": "public"
+  },
   "devDependencies": {
     "@biomejs/biome": "^2.3.0",
     "@rslib/core": "^0.16.1",

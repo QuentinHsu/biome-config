@@ -134,11 +134,5 @@ pnpm biome check .
 pnpm biome lint . --fix
 ```
 
-## Publishing to npm
 
-1. Build the artifacts: `pnpm build`
-2. Verify the file structure in `dist/`: `pnpm pack --dry-run`
-3. Remove the `private` field from `package.json` and update the version number
-4. Publish: `pnpm publish --access public`
 
-After publishing, these presets can be shared across other projects using the `extends` syntax.
