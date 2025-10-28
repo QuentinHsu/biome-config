@@ -1,33 +1,144 @@
-# @example/biome-configs
+# @quentinhsu/biome-config
 
-使用 Rslib 构建的一组可复用 Biome 配置预设。将通用规则拆分成基础层和框架特定层，最终在 `dist/` 根目录生成可直接在项目中 `extends` 的 `biome.jsonc` 文件。
+A modular Biome configuration preset collection built with Rslib. Includes a comprehensive base configuration with framework-specific overlays (React, Next.js, Vue, Nuxt), ultimately generating `biome.jsonc` files in the `dist/` directory that can be directly extended in projects.
 
-## 开发流程
+## Development
 
 ```bash
 pnpm install
 pnpm build
 ```
 
-构建流程会先通过 Rslib 将 TypeScript 模块编译到 `dist/`，随后执行 `dist/build.mjs` 将各个预设输出为 JSONC 文件。
+The build process first compiles TypeScript modules to `dist/` via Rslib, then executes `dist/build.mjs` to output each preset as a JSONC file.
 
-## 可用预设
+## Available Presets
 
-| 预设 | 说明 | 引用方式 |
+| Preset | Description | Export |
 | --- | --- | --- |
-| `base` | 通用基础规则 | `"extends": ["@example/biome-configs/base"]` |
-| `react` | React 项目额外约束 | `"extends": ["@example/biome-configs/react"]` |
-| `next` | Next.js 项目扩展 | `"extends": ["@example/biome-configs/next"]` |
-| `vue` | Vue 项目扩展 | `"extends": ["@example/biome-configs/vue"]` |
-| `nuxt` | Nuxt.js 项目扩展 | `"extends": ["@example/biome-configs/nuxt"]` |
+| `.` (index) | Base configuration with recommended rules | `"extends": ["@quentinhsu/biome-config"]` |
+| `./react` | React-specific rules and overrides | `"extends": ["@quentinhsu/biome-config/react"]` |
+| `./next` | Next.js-specific rules and file exclusions | `"extends": ["@quentinhsu/biome-config/next"]` |
+| `./vue` | Vue-specific rules and configuration | `"extends": ["@quentinhsu/biome-config/vue"]` |
+| `./nuxt` | Nuxt-specific rules and configuration | `"extends": ["@quentinhsu/biome-config/nuxt"]` |
 
-`react`/`next`、`vue`/`nuxt` 均在基础规则上叠加只在特定框架中才需要的文件排除、全局变量以及额外的 linter 选项。
+Each preset inherits from and extends the base configuration with framework-specific file patterns, globals, and linter rules.
 
-## 发布到 npm
+## Usage
 
-1. 构建产物：`pnpm build`
-2. 确认 `dist/` 内文件结构：`pnpm pack --dry-run`
-3. 去掉 `package.json` 中的 `private` 字段，更新版本号
-4. 发布：`pnpm publish --access public`
+### Installation
 
-发布后，在其它项目内即可通过 `extends` 语法共享这些预设。
+Install this package in your project:
+
+```bash
+pnpm add -D @quentinhsu/biome-config
+```
+
+### Basic Setup
+
+Create or update your `biome.json` (or `biome.jsonc`) file to use the base configuration:
+
+```json
+{
+  "extends": ["@quentinhsu/biome-config"]
+}
+```
+
+### Framework-Specific Configuration
+
+#### React Projects
+
+```json
+{
+  "extends": ["@quentinhsu/biome-config/react"]
+}
+```
+
+The React preset includes:
+- Fragment syntax enforcement
+- JSX quote style configuration
+- Test file rule overrides
+- Storybook exclusion
+
+#### Next.js Projects
+
+```json
+{
+  "extends": ["@quentinhsu/biome-config/next"]
+}
+```
+
+The Next.js preset extends React rules with Next.js-specific patterns.
+
+#### Vue Projects
+
+```json
+{
+  "extends": ["@quentinhsu/biome-config/vue"]
+}
+```
+
+#### Nuxt Projects
+
+```json
+{
+  "extends": ["@quentinhsu/biome-config/nuxt"]
+}
+```
+
+### Customization
+
+You can override or extend any preset rules in your own `biome.json`:
+
+```json
+{
+  "extends": ["@quentinhsu/biome-config/react"],
+  "linter": {
+    "rules": {
+      "style": {
+        "useFragmentSyntax": "warn"
+      }
+    }
+  },
+  "formatter": {
+    "lineWidth": 120
+  }
+}
+```
+
+### Base Configuration Features
+
+The base configuration includes:
+
+- **Formatter**: Space indentation, 140-character line width
+- **Linter**: Recommended rules with strict complexity and correctness checks
+- **JavaScript**: Single quotes, no arrow parentheses, trailing commas
+- **Imports**: Organized by node modules, packages, aliases, and relative paths
+- **VCS**: Git integration with `.gitignore` support
+- **Files**: Ignores common output directories (`build`, `dist`, `.next`)
+
+### Running Biome
+
+Once configured, you can use Biome commands:
+
+```bash
+# Format files
+pnpm biome format . --write
+
+# Lint files
+pnpm biome lint . --write
+
+# Check formatting and linting
+pnpm biome check .
+
+# Fix lint issues automatically
+pnpm biome lint . --fix
+```
+
+## Publishing to npm
+
+1. Build the artifacts: `pnpm build`
+2. Verify the file structure in `dist/`: `pnpm pack --dry-run`
+3. Remove the `private` field from `package.json` and update the version number
+4. Publish: `pnpm publish --access public`
+
+After publishing, these presets can be shared across other projects using the `extends` syntax.
