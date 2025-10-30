@@ -8,8 +8,13 @@ This project uses an automated release workflow with npm Trusted Publishers (OID
 
 **To release a new version**:
 1. Create a tag on GitHub (e.g., `v0.2.0`)
-2. Review the auto-created PR
-3. Comment `/release` to publish
+2. Review the auto-created PR with version bump and changelog
+3. (Optional) Comment `/regenerate-changelog` to regenerate the changelog if needed
+4. Comment `/release` to publish to npm
+
+**Available PR commands**:
+- `/release` - Publish the release to npm
+- `/regenerate-changelog` - Regenerate changelog from git history
 
 **Local testing**:
 ```bash

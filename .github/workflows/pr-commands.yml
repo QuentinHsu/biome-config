@@ -1,0 +1,175 @@
+name: PR Commands
+
+on:
+  issue_comment:
+    types: [created]
+
+permissions:
+  contents: write
+  pull-requests: write
+  issues: write
+
+jobs:
+  regenerate-changelog:
+    # Only run on PR comments from OWNER or MEMBER
+    if: |
+      github.event.issue.pull_request &&
+      github.event.comment.body == '/regenerate-changelog' &&
+      (github.event.comment.author_association == 'OWNER' || github.event.comment.author_association == 'MEMBER')
+    runs-on: ubuntu-latest
+    steps:
+      - name: Add reaction to comment
+        uses: actions/github-script@v7
+        with:
+          script: |
+            github.rest.reactions.createForIssueComment({
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+              comment_id: context.payload.comment.id,
+              content: 'eyes'
+            })
+
+      - name: Get PR branch
+        id: pr
+        uses: actions/github-script@v7
+        with:
+          script: |
+            const pr = await github.rest.pulls.get({
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+              pull_number: context.issue.number
+            });
+            return {
+              ref: pr.data.head.ref,
+              number: pr.data.number
+            };
+
+      - name: Checkout PR branch
+        uses: actions/checkout@v4
+        with:
+          ref: ${{ fromJson(steps.pr.outputs.result).ref }}
+          fetch-depth: 0
+          token: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Setup pnpm
+        uses: pnpm/action-setup@v4
+        with:
+          version: 9
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: "20"
+          cache: "pnpm"
+
+      - name: Install dependencies
+        run: pnpm install
+
+      - name: Get version from package.json
+        id: version
+        run: |
+          VERSION=$(node -p "require('./package.json').version")
+          echo "version=$VERSION" >> $GITHUB_OUTPUT
+          echo "Current version: $VERSION"
+
+      - name: Regenerate CHANGELOG
+        run: pnpm run generate:changelog
+
+      - name: Get updated changelog entry
+        id: changelog
+        run: |
+          VERSION="${{ steps.version.outputs.version }}"
+          CHANGELOG_ENTRY=$(sed -n "/## \[$VERSION\]/,/^## \[/p" CHANGELOG.md | sed '1d;$d')
+
+          echo "Updated changelog for version $VERSION:"
+          echo "$CHANGELOG_ENTRY"
+
+          {
+            echo "changelog<<EOF"
+            echo "$CHANGELOG_ENTRY"
+            echo "EOF"
+          } >> $GITHUB_OUTPUT
+
+      - name: Commit and push changes
+        run: |
+          git config --local user.email "github-actions[bot]@users.noreply.github.com"
+          git config --local user.name "github-actions[bot]"
+
+          if git diff --quiet CHANGELOG.md; then
+            echo "No changes to CHANGELOG.md"
+            echo "has_changes=false" >> $GITHUB_ENV
+          else
+            git add CHANGELOG.md
+            git commit -m "chore: regenerate changelog"
+            git push
+            echo "has_changes=true" >> $GITHUB_ENV
+          fi
+
+      - name: Update PR description
+        if: env.has_changes == 'true'
+        uses: actions/github-script@v7
+        with:
+          script: |
+            const version = '${{ steps.version.outputs.version }}';
+            const changelog = `${{ steps.changelog.outputs.changelog }}`;
+
+            const newBody = `## Release v${version}
+
+            This PR updates the package version and changelog for the new release.
+
+            ### Changelog
+
+            ${changelog}
+
+            ---
+
+            **Commands:**
+            - Comment \`/release\` to publish this release to npm
+            - Comment \`/regenerate-changelog\` to regenerate the changelog`;
+
+            await github.rest.pulls.update({
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+              pull_number: context.issue.number,
+              body: newBody
+            });
+
+      - name: Add success comment
+        if: env.has_changes == 'true'
+        uses: actions/github-script@v7
+        with:
+          script: |
+            await github.rest.issues.createComment({
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+              issue_number: context.issue.number,
+              body: '✅ Changelog has been regenerated and PR description updated!'
+            });
+
+            // Add success reaction
+            await github.rest.reactions.createForIssueComment({
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+              comment_id: context.payload.comment.id,
+              content: 'rocket'
+            });
+
+      - name: Add no-changes comment
+        if: env.has_changes == 'false'
+        uses: actions/github-script@v7
+        with:
+          script: |
+            await github.rest.issues.createComment({
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+              issue_number: context.issue.number,
+              body: 'ℹ️ No changes detected in CHANGELOG.md'
+            });
+
+            // Add confused reaction
+            await github.rest.reactions.createForIssueComment({
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+              comment_id: context.payload.comment.id,
+              content: 'confused'
+            });

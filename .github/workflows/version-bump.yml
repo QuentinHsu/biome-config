@@ -86,6 +86,8 @@ jobs:
 
             ---
 
-            To publish this release to npm, review the changes and comment `/release` on this PR.
+            **Commands:**
+            - Comment `/release` to publish this release to npm
+            - Comment `/regenerate-changelog` to regenerate the changelog
           labels: release
           delete-branch: true

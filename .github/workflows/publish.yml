@@ -18,6 +18,17 @@ jobs:
       (github.event.comment.author_association == 'OWNER' || github.event.comment.author_association == 'MEMBER')
     runs-on: ubuntu-latest
     steps:
+      - name: Add reaction to comment
+        uses: actions/github-script@v7
+        with:
+          script: |
+            await github.rest.reactions.createForIssueComment({
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+              comment_id: context.payload.comment.id,
+              content: 'eyes'
+            });
+
       - name: Get PR branch
         id: pr
         uses: actions/github-script@v7
@@ -91,4 +102,12 @@ jobs:
               repo: context.repo.repo,
               issue_number: context.issue.number,
               body: '✅ Package published to npm successfully and PR merged!'
+            });
+
+            // Add success reaction
+            await github.rest.reactions.createForIssueComment({
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+              comment_id: context.payload.comment.id,
+              content: 'rocket'
             });
