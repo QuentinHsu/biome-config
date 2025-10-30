@@ -1,6 +1,6 @@
 {
   "name": "@quentinhsu/biome-config",
-  "version": "0.1.0",
+  "version": "0.1.1",
   "author": "QuentinHsu",
   "repository": "https://github.com/QuentinHsu/biome-config",
   "description": "Modular Biome configuration presets.",
