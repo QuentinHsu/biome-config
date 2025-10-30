@@ -1,5 +1,23 @@
 # Publishing Guide
 
+## Quick Release
+
+This project uses an automated release workflow with npm Trusted Publishers (OIDC).
+
+**First-time setup**: Configure npm Trusted Publisher (see [Prerequisites](#prerequisites) and [Setup Trusted Publisher](#setup-trusted-publisher) below)
+
+**To release a new version**:
+1. Create a tag on GitHub (e.g., `v0.2.0`)
+2. Review the auto-created PR
+3. Comment `/release` to publish
+
+**Local testing**:
+```bash
+pnpm test:release 0.2.0
+```
+
+---
+
 ## Publishing to npm
 
 This project uses [npm Trusted Publishers](https://docs.npmjs.com/trusted-publishers) with OpenID Connect (OIDC) for secure, token-free publishing.
