@@ -82,26 +82,67 @@ jobs:
       - name: Publish to npm
         run: npm publish --access public
 
+      - name: Get version from package.json
+        id: version
+        run: |
+          VERSION=$(node -p "require('./package.json').version")
+          echo "version=$VERSION" >> $GITHUB_OUTPUT
+          echo "Published version: $VERSION"
+
+      - name: Get changelog entry
+        id: changelog
+        run: |
+          VERSION="${{ steps.version.outputs.version }}"
+          CHANGELOG_ENTRY=$(sed -n "/## \[$VERSION\]/,/^## \[/p" CHANGELOG.md | sed '1d;$d')
+
+          echo "Changelog for version $VERSION:"
+          echo "$CHANGELOG_ENTRY"
+
+          {
+            echo "changelog<<EOF"
+            echo "$CHANGELOG_ENTRY"
+            echo "EOF"
+          } >> $GITHUB_OUTPUT
+
       - name: Merge PR
         uses: actions/github-script@v7
         with:
           script: |
-            await github.rest.pulls.merge({
+            const result = await github.rest.pulls.merge({
               owner: context.repo.owner,
               repo: context.repo.repo,
               pull_number: context.issue.number,
               merge_method: 'squash'
+            });
+            return result.data.sha;
+
+      - name: Create GitHub Release
+        uses: actions/github-script@v7
+        with:
+          script: |
+            const version = '${{ steps.version.outputs.version }}';
+            const changelog = `${{ steps.changelog.outputs.changelog }}`;
+
+            await github.rest.repos.createRelease({
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+              tag_name: `v${version}`,
+              name: `v${version}`,
+              body: changelog || 'No changelog available',
+              draft: false,
+              prerelease: false
             });
 
       - name: Comment success
         uses: actions/github-script@v7
         with:
           script: |
+            const version = '${{ steps.version.outputs.version }}';
             await github.rest.issues.createComment({
               owner: context.repo.owner,
               repo: context.repo.repo,
               issue_number: context.issue.number,
-              body: '✅ Package published to npm successfully and PR merged!'
+              body: `✅ Release v${version} published successfully!\n\n- 📦 [npm package](https://www.npmjs.com/package/@quentinhsu/biome-config/v/${version})\n- 🎉 [GitHub Release](https://github.com/${context.repo.owner}/${context.repo.repo}/releases/tag/v${version})\n- ✓ PR merged to main`
             });
 
             // Add success reaction

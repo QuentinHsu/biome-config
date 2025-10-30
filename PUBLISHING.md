@@ -10,10 +10,10 @@ This project uses an automated release workflow with npm Trusted Publishers (OID
 1. Create a tag on GitHub (e.g., `v0.2.0`)
 2. Review the auto-created PR with version bump and changelog
 3. (Optional) Comment `/regenerate-changelog` to regenerate the changelog if needed
-4. Comment `/release` to publish to npm
+4. Comment `/release` to publish to npm and create GitHub Release
 
 **Available PR commands**:
-- `/release` - Publish the release to npm
+- `/release` - Publish the release to npm and create GitHub Release
 - `/regenerate-changelog` - Regenerate changelog from git history
 
 **Local testing**:
@@ -72,27 +72,44 @@ No additional configuration needed! ✅
 
 ## Publishing a Release
 
+### Automated Release Workflow
+
+When you push a version tag, the following happens automatically:
+
+1. **Version Bump Workflow** triggers and creates a PR with:
+   - Updated `package.json` version
+   - Generated changelog from git history
+   - PR labeled as `release`
+
+2. **Review and Approve** the PR:
+   - Check the version and changelog are correct
+   - (Optional) Comment `/regenerate-changelog` to regenerate if needed
+
+3. **Publish** by commenting `/release` on the PR:
+   - Builds and publishes package to npm via OIDC
+   - Creates GitHub Release with changelog
+   - Merges the PR to main
+   - Adds links to npm package and GitHub Release
+
 ### Create and Push a Tag
 
 ```bash
-# Update version in package.json first if needed
-# Then create and push a tag
-git tag -a v0.2.0 -m "Release version 0.2.0"
+# Create and push a tag (will trigger the workflow)
+git tag v0.2.0
 git push origin v0.2.0
 ```
 
-This automatically triggers the GitHub Actions workflow, which will:
-1. Checkout the code
-2. Setup Node.js and npm
-3. Install dependencies
-4. Build the package
-5. Publish to npm using OIDC authentication
+The version-bump workflow will:
+1. Extract version from tag
+2. Update `package.json` version
+3. Generate changelog from git history
+4. Create a PR with the changes
 
-### Monitor the Publish
+### Monitor the Release
 
-- Watch the progress in the GitHub Actions tab of your repository
-- Check the workflow run at: `https://github.com/quentinhsu/biome-config/actions`
-- Once successful, the new version will be available on npm
+- **Version Bump PR**: Check the auto-created PR in the Pull Requests tab
+- **Publishing**: Watch the progress in the GitHub Actions tab when you comment `/release`
+- **Results**: Links to npm package and GitHub Release will be posted in the PR
 
 ## How Trusted Publishing Works
 
