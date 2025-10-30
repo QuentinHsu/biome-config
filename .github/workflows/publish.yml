@@ -1,27 +1,63 @@
 name: Publish Package to npm
 
 on:
-  push:
-    tags:
-      - "v*"
+  issue_comment:
+    types: [created]
 
 permissions:
   id-token: write # Required for OIDC
-  contents: read
+  contents: write
+  pull-requests: write
 
 jobs:
   publish:
+    # 仅在 PR 评论且评论内容为 /release 时触发
+    if: |
+      github.event.issue.pull_request &&
+      github.event.comment.body == '/release' &&
+      (github.event.comment.author_association == 'OWNER' || github.event.comment.author_association == 'MEMBER')
     runs-on: ubuntu-latest
-
     steps:
-      - name: Checkout code
+      - name: Get PR branch
+        id: pr
+        uses: actions/github-script@v7
+        with:
+          script: |
+            const pr = await github.rest.pulls.get({
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+              pull_number: context.issue.number
+            });
+            return {
+              ref: pr.data.head.ref,
+              sha: pr.data.head.sha,
+              labels: pr.data.labels.map(l => l.name)
+            };
+
+      - name: Check if release PR
+        run: |
+          if ! echo '${{ steps.pr.outputs.result }}' | jq -e '.labels | contains(["release"])' > /dev/null; then
+            echo "This PR is not labeled as a release"
+            exit 1
+          fi
+
+      - name: Checkout PR branch
         uses: actions/checkout@v4
+        with:
+          ref: ${{ fromJson(steps.pr.outputs.result).ref }}
+          fetch-depth: 0
+
+      - name: Setup pnpm
+        uses: pnpm/action-setup@v4
+        with:
+          version: 9
 
       - name: Setup Node.js
         uses: actions/setup-node@v4
         with:
           node-version: "20"
           registry-url: "https://registry.npmjs.org"
+          cache: "pnpm"
 
       - name: Update npm
         run: npm install -g npm@latest
@@ -33,4 +69,26 @@ jobs:
         run: pnpm build
 
       - name: Publish to npm
-        run: pnpm publish --access public --provenance
+        run: npm publish --access public
+
+      - name: Merge PR
+        uses: actions/github-script@v7
+        with:
+          script: |
+            await github.rest.pulls.merge({
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+              pull_number: context.issue.number,
+              merge_method: 'squash'
+            });
+
+      - name: Comment success
+        uses: actions/github-script@v7
+        with:
+          script: |
+            await github.rest.issues.createComment({
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+              issue_number: context.issue.number,
+              body: '✅ Package published to npm successfully and PR merged!'
+            });

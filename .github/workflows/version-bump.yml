@@ -1,0 +1,80 @@
+name: Version Bump and Changelog
+
+on:
+  push:
+    tags:
+      - "v*"
+
+permissions:
+  contents: write
+  pull-requests: write
+
+jobs:
+  version-bump:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+          token: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Setup pnpm
+        uses: pnpm/action-setup@v4
+        with:
+          version: 9
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: "20"
+          cache: "pnpm"
+
+      - name: Install dependencies
+        run: pnpm install
+
+      - name: Extract version from tag
+        id: extract_version
+        run: |
+          VERSION=${GITHUB_REF#refs/tags/v}
+          echo "version=$VERSION" >> $GITHUB_OUTPUT
+          echo "Extracted version: $VERSION"
+
+      - name: Update package.json version
+        run: |
+          npm version ${{ steps.extract_version.outputs.version }} --no-git-tag-version
+
+      - name: Generate CHANGELOG
+        run: pnpm run generate:changelog
+
+      - name: Get changelog entry
+        id: changelog
+        run: |
+          VERSION="${{ steps.extract_version.outputs.version }}"
+          CHANGELOG_ENTRY=$(awk "/## \[$VERSION\]/,/^## \[|^$/" CHANGELOG.md | sed '/^$/d')
+          echo "changelog<<EOF" >> $GITHUB_OUTPUT
+          echo "$CHANGELOG_ENTRY" >> $GITHUB_OUTPUT
+          echo "EOF" >> $GITHUB_OUTPUT
+
+      - name: Create Pull Request
+        uses: peter-evans/create-pull-request@v7
+        with:
+          token: ${{ secrets.GITHUB_TOKEN }}
+          commit-message: "chore: bump version to ${{ steps.extract_version.outputs.version }}"
+          branch: release/v${{ steps.extract_version.outputs.version }}
+          title: "Release v${{ steps.extract_version.outputs.version }}"
+          body: |
+            ## Release v${{ steps.extract_version.outputs.version }}
+
+            This PR updates the package version and changelog for the new release.
+
+            ### Changelog
+
+            ${{ steps.changelog.outputs.changelog }}
+
+            ---
+
+            To publish this release to npm, review the changes and comment `/release` on this PR.
+          labels: release
+          delete-branch: true
