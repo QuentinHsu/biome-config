@@ -45,8 +45,27 @@ jobs:
         run: |
           npm version ${{ steps.extract_version.outputs.version }} --no-git-tag-version
 
+      - name: Get previous tag
+        id: previous_tag
+        run: |
+          # Get the tag before the current one
+          CURRENT_TAG="v${{ steps.extract_version.outputs.version }}"
+          PREVIOUS_TAG=$(git tag --sort=-version:refname | grep -A 1 "^${CURRENT_TAG}$" | tail -1)
+
+          if [ -z "$PREVIOUS_TAG" ] || [ "$PREVIOUS_TAG" = "$CURRENT_TAG" ]; then
+            # If no previous tag, use the first commit
+            PREVIOUS_TAG=$(git rev-list --max-parents=0 HEAD)
+            echo "No previous tag found, using first commit: $PREVIOUS_TAG"
+          else
+            echo "Previous tag: $PREVIOUS_TAG"
+          fi
+
+          echo "tag=$PREVIOUS_TAG" >> $GITHUB_OUTPUT
+
       - name: Generate CHANGELOG
-        run: pnpm run generate:changelog
+        run: |
+          # Generate changelog from previous tag to current HEAD
+          pnpm run generate:changelog ${{ steps.previous_tag.outputs.tag }} HEAD
 
       - name: Get changelog entry
         id: changelog
