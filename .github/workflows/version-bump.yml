@@ -52,10 +52,20 @@ jobs:
         id: changelog
         run: |
           VERSION="${{ steps.extract_version.outputs.version }}"
-          CHANGELOG_ENTRY=$(awk "/## \[$VERSION\]/,/^## \[|^$/" CHANGELOG.md | sed '/^$/d')
-          echo "changelog<<EOF" >> $GITHUB_OUTPUT
-          echo "$CHANGELOG_ENTRY" >> $GITHUB_OUTPUT
-          echo "EOF" >> $GITHUB_OUTPUT
+          # Extract changelog content for the specific version
+          # Find content between ## [VERSION] and next ## [ line, excluding the header and next section
+          CHANGELOG_ENTRY=$(sed -n "/## \[$VERSION\]/,/^## \[/p" CHANGELOG.md | sed '1d;$d')
+
+          # Debug: Show what we extracted
+          echo "Extracted changelog for version $VERSION:"
+          echo "$CHANGELOG_ENTRY"
+
+          # Save to output
+          {
+            echo "changelog<<EOF"
+            echo "$CHANGELOG_ENTRY"
+            echo "EOF"
+          } >> $GITHUB_OUTPUT
 
       - name: Create Pull Request
         uses: peter-evans/create-pull-request@v7
