@@ -63,6 +63,7 @@ jobs:
           token: ${{ secrets.GITHUB_TOKEN }}
           commit-message: "chore: bump version to ${{ steps.extract_version.outputs.version }}"
           branch: release/v${{ steps.extract_version.outputs.version }}
+          base: main
           title: "Release v${{ steps.extract_version.outputs.version }}"
           body: |
             ## Release v${{ steps.extract_version.outputs.version }}
