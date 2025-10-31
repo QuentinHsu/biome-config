@@ -13,38 +13,24 @@ jobs:
   publish:
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v4
+      - name: Checkout code
+        uses: actions/checkout@v4
 
-      - uses: pnpm/action-setup@v4
+      - name: Setup pnpm
+        uses: pnpm/action-setup@v4
 
-      - uses: actions/setup-node@v4
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
         with:
           node-version-file: .node-version
-
-      - name: Install pnpm
-        run: npm i -g npm@latest && npm install -g pnpm@latest
+          registry-url: "https://registry.npmjs.org/"
+          scope: "@quentinhsu"
 
       - name: Install dependencies
         run: pnpm install
 
-      - name: Download dist artifact
+      - name: Build package
         run: pnpm -F @quentinhsu/biome-config run build
-
-      - name: Setup Node
-        uses: actions/setup-node@v4
-        with:
-          node-version: "20"
-          registry-url: "https://registry.npmjs.org/"
-          scope: "@quentinhsu"
-
-      - name: Authenticate to npm
-        env:
-          NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
-        run: |
-          # 可选：确保 npm 针对 registry 使用 token
-          npm config set //registry.npmjs.org/:_authToken "${NODE_AUTH_TOKEN}"
-          # 显示当前 npm 用户（验证 token 是否有效）
-          npm whoami || true
 
       - name: Publish to npm
         env:
