@@ -33,7 +33,7 @@ export type IndentStyle = 'tab' | 'space';
 
 export type IndentWidth = number;
 
-export type LineEnding = 'lf' | 'crlf' | 'cr';
+export type LineEnding = 'lf' | 'crlf' | 'cr' | 'auto';
 
 /**
  * Validated value for the `line_width` formatter options

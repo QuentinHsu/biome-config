@@ -31,6 +31,8 @@ export type Visibility = 'public' | 'package' | 'private';
 
 export interface NoProcessGlobalOptions {}
 
+export interface NoQwikUseVisibleTaskOptions {}
+
 export interface NoReactPropAssignmentsOptions {}
 
 export interface NoRenderReturnValueOptions {}
@@ -112,6 +114,8 @@ export interface UseGraphqlNamedOperationsOptions {}
 
 export interface UseHookAtTopLevelOptions {}
 
+export type UseImageSizeOptions = null;
+
 export interface UseImportExtensionsOptions {
   /**
    * If `true`, the suggested extension is always `.js` regardless of what extension the source file has in your project.
@@ -132,6 +136,8 @@ export interface UseJsxKeyInIterableOptions {
 
 export interface UseParseIntRadixOptions {}
 
+export interface UseQwikClasslistOptions {}
+
 export interface UseSingleJsDocAsteriskOptions {}
 
 export interface UseUniqueElementIdsOptions {
@@ -151,6 +157,13 @@ export interface NoDeprecatedImportsOptions {}
 
 export interface NoDuplicateDependenciesOptions {}
 
+export interface NoEmptySourceOptions {
+  /**
+   * Whether comments are considered meaningful
+   */
+  allowComments?: boolean;
+}
+
 export interface NoFloatingPromisesOptions {}
 
 export interface NoImportCyclesOptions {
@@ -158,6 +171,13 @@ export interface NoImportCyclesOptions {
    * Ignores type-only imports when finding an import cycle. A type-only import (`import type`) will be removed by the compiler, so it cuts an import cycle at runtime. Note that named type imports (`import { type Foo }`) aren't considered as type-only because it's not removed by the compiler if the `verbatimModuleSyntax` option is enabled. Enabled by default.
    */
   ignoreTypes?: boolean;
+}
+
+export interface NoIncrementDecrementOptions {
+  /**
+   * Allows unary operators ++ and -- in the afterthought (final expression) of a for loop.
+   */
+  allowForLoopAfterthoughts?: boolean;
 }
 
 export interface NoJsxLiteralsOptions {
@@ -179,18 +199,7 @@ export interface NoMisusedPromisesOptions {}
 
 export interface NoNextAsyncClientComponentOptions {}
 
-export interface NoNonNullAssertedOptionalChainOptions {}
-
-export interface NoQwikUseVisibleTaskOptions {}
-
 export interface NoReactForwardRefOptions {}
-
-export interface NoSecretsOptions {
-  /**
-   * Set entropy threshold (default is 41).
-   */
-  entropyThreshold?: number | null;
-}
 
 export interface NoShadowOptions {}
 
@@ -215,11 +224,7 @@ export interface NoVueReservedKeysOptions {}
 
 export interface NoVueReservedPropsOptions {}
 
-export type UseAnchorHrefOptions = null;
-
 export type UseConsistentArrowReturnStyle = 'asNeeded' | 'always' | 'never';
-
-export type ConsistentTypeDefinition = 'interface' | 'type';
 
 export interface UseDeprecatedDateOptions {
   argumentName?: string;
@@ -229,8 +234,6 @@ export interface UseExhaustiveSwitchCasesOptions {}
 
 export interface UseExplicitTypeOptions {}
 
-export type UseImageSizeOptions = null;
-
 export interface UseMaxParamsOptions {
   /**
    * Maximum number of parameters allowed (default: 4)
@@ -238,13 +241,9 @@ export interface UseMaxParamsOptions {
   max?: number;
 }
 
-export interface UseQwikClasslistOptions {}
-
 export interface UseQwikMethodUsageOptions {}
 
 export interface UseQwikValidLexicalScopeOptions {}
-
-export interface UseReactFunctionComponentsOptions {}
 
 export interface UseSortedClassesOptions {
   /**
@@ -255,6 +254,13 @@ export interface UseSortedClassesOptions {
    * Names of the functions or tagged templates that will be sorted.
    */
   functions?: string[] | null;
+}
+
+export interface UseVueDefineMacrosOrderOptions {
+  /**
+   * The order of the Vue define macros.
+   */
+  order?: string[];
 }
 
 export interface UseVueMultiWordComponentNamesOptions {
@@ -305,6 +311,13 @@ export interface NoDangerouslySetInnerHtmlWithChildrenOptions {}
 
 export interface NoGlobalEvalOptions {}
 
+export interface NoSecretsOptions {
+  /**
+   * Set entropy threshold (default is 41).
+   */
+  entropyThreshold?: number | null;
+}
+
 export interface NoCommonJsOptions {}
 
 export interface NoDefaultExportOptions {}
@@ -328,4 +341,6 @@ export interface NoMagicNumbersOptions {}
 export interface NoNamespaceOptions {}
 
 export interface NoNegationElseOptions {}
+
+export interface NoNestedTernaryOptions {}
 
