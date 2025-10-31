@@ -112,6 +112,49 @@ The base configuration includes:
 - **VCS**: Git integration with `.gitignore` support
 - **Files**: Ignores common output directories (`build`, `dist`, `.next`)
 
+### VS Code Integration
+
+To integrate Biome with VS Code, install the [Biome extension](https://marketplace.visualstudio.com/items?itemName=biomejs.biome) and configure it in `.vscode/settings.json`:
+
+<details>
+<summary><b>.vscode/settings.json</b></summary>
+
+```json
+{
+  "editor.formatOnSave": true,
+  "editor.defaultFormatter": "biomejs.biome",
+  "[javascript]": {
+    "editor.defaultFormatter": "biomejs.biome"
+  },
+  "[javascriptreact]": {
+    "editor.defaultFormatter": "biomejs.biome"
+  },
+  "[typescript]": {
+    "editor.defaultFormatter": "biomejs.biome"
+  },
+  "[typescriptreact]": {
+    "editor.defaultFormatter": "biomejs.biome"
+  },
+  "[json]": {
+    "editor.defaultFormatter": "biomejs.biome"
+  },
+  "[jsonc]": {
+    "editor.defaultFormatter": "biomejs.biome"
+  },
+  "editor.codeActionsOnSave": {
+    "source.fixAll.biome": "explicit",
+    "source.organizeImports.biome": "explicit"
+  }
+}
+```
+
+This configuration:
+- Enables automatic formatting on save
+- Sets Biome as the default formatter for JavaScript, TypeScript, and JSON files
+- Automatically runs Biome's fix and import organization on save
+
+</details>
+
 ### Running Biome
 
 Once configured, you can use Biome commands:
