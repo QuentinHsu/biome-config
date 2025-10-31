@@ -1,0 +1,21 @@
+# Source files
+src/
+scripts/
+
+# Config files
+rslib.config.ts
+tsconfig.json
+nodemon.json
+biome.jsonc
+pnpm-workspace.yaml
+
+# Development files
+.github/
+docs/
+
+# Lock files
+pnpm-lock.yaml
+
+# Others
+*.log
+.DS_Store
