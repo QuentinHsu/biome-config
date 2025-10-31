@@ -43,4 +43,4 @@ jobs:
       - name: Publish to npm
         env:
           NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
-        run: pnpm -F @quentinhsu/biome-config publish --provenance
+        run: pnpm --no-git-checks -F @quentinhsu/biome-config publish --provenance
