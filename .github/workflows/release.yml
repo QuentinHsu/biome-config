@@ -38,9 +38,16 @@ jobs:
         run: pnpm install
 
       - name: Build package
-        run: pnpm -F @quentinhsu/biome-config run build
+        run: pnpm run build
+
+      - name: Verify dist folder
+        run: |
+          echo "Checking dist folder contents:"
+          ls -la dist/
+          echo "Files to be published:"
+          npm pack --dry-run
 
       - name: Publish to npm
         env:
           NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
-        run: pnpm --no-git-checks -F @quentinhsu/biome-config publish --provenance
+        run: npm publish --provenance --access public
