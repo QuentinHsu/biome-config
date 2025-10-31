@@ -28,7 +28,7 @@ jobs:
 
       - name: Generate GitHub Changelog
         run: pnpx changelogithub
-        continue-on-error: true
+        continue-on-error: false
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
