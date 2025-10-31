@@ -29,6 +29,12 @@ export const indexConfig: BiomeConfig = {
             groups: [[':NODE:', ':BUN:', ':PACKAGE_WITH_PROTOCOL:', ':PACKAGE:'], ':BLANK_LINE:', ':ALIAS:', ':BLANK_LINE:', ':PATH:'],
           },
         },
+        useSortedAttributes: {
+          level: 'on',
+          options: {
+            sortOrder: 'natural',
+          },
+        },
       },
     },
   },

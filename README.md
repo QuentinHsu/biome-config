@@ -141,6 +141,10 @@ pnpm build
 
 The build process first compiles TypeScript modules to `dist/` via Rslib, then executes `dist/build.mjs` to output each preset as a JSONC file.
 
+### Publishing
+
+For instructions on how to release a new version, see [PUBLISHING.md](PUBLISHING.md).
+
 ## Contributing
 
 Found an issue or have a suggestion? Please open an [issue](https://github.com/QuentinHsu/biome-config/issues) on GitHub.

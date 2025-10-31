@@ -1,5 +1,29 @@
 # Publishing Guide
 
+## Quick Release
+
+This project uses an automated release workflow with npm Trusted Publishers (OIDC).
+
+**First-time setup**: Configure npm Trusted Publisher (see [Prerequisites](#prerequisites) and [Setup Trusted Publisher](#setup-trusted-publisher) below)
+
+**To release a new version**:
+1. Update version in `package.json`
+2. Commit the changes
+3. Create and push a tag: `git tag v0.2.0 && git push origin v0.2.0`
+4. The workflow will automatically:
+   - Build the package
+   - Generate changelog and create GitHub Release
+   - Publish to npm
+
+That's it! ✨
+
+**Local testing**:
+```bash
+pnpm test:release 0.2.0
+```
+
+---
+
 ## Publishing to npm
 
 This project uses [npm Trusted Publishers](https://docs.npmjs.com/trusted-publishers) with OpenID Connect (OIDC) for secure, token-free publishing.
@@ -29,47 +53,67 @@ Before you can publish this package using Trusted Publishers:
 2. Find the "Trusted Publisher" section and click the GitHub Actions button
 
 3. Configure the following fields:
-   - **Organization or user**: `quentinhsu`
+   - **Organization or user**: `QuentinHsu`
    - **Repository**: `biome-config`
-   - **Workflow filename**: `publish.yml`
+   - **Workflow filename**: `release.yml`
    - **Environment name**: (Leave empty, or specify if using GitHub environments for approval)
 
 4. Click "Create" to register the trusted publisher
 
 ### Step 2: Verify Workflow Configuration
 
-The workflow file (`.github/workflows/publish.yml`) is already configured with:
+The workflow file (`.github/workflows/release.yml`) is already configured with:
 
 - `id-token: write` permission for OIDC token generation
-- Automatic npm CLI update to latest version
 - Trigger on `v*` tags
 - Dependencies installation, build, and publish steps
+- Automatic changelog generation using `changelogithub`
 
 No additional configuration needed! ✅
 
 ## Publishing a Release
 
-### Create and Push a Tag
+### Simple One-Step Release
+
+When you push a version tag, the workflow automatically:
+
+1. ✅ Checks out the repository
+2. ✅ Installs dependencies
+3. ✅ Builds the package
+4. ✅ Generates GitHub Release with changelog from commits
+5. ✅ Publishes to npm via OIDC (no tokens needed!)
+
+### Steps to Release
 
 ```bash
-# Update version in package.json first if needed
-# Then create and push a tag
-git tag -a v0.2.0 -m "Release version 0.2.0"
+# 1. Update version in package.json
+npm version patch  # or minor, major
+# This creates version 0.2.1 and commits the change
+
+# 2. Push the commit and tag
+git push origin main
+git push origin v0.2.1
+```
+
+Or manually:
+
+```bash
+# 1. Update package.json version manually to 0.2.0
+# 2. Commit the change
+git add package.json
+git commit -m "chore: bump version to 0.2.0"
+
+# 3. Create and push tag
+git tag v0.2.0
+git push origin main
 git push origin v0.2.0
 ```
 
-This automatically triggers the GitHub Actions workflow, which will:
-1. Checkout the code
-2. Setup Node.js and npm
-3. Install dependencies
-4. Build the package
-5. Publish to npm using OIDC authentication
+### Monitor the Release
 
-### Monitor the Publish
-
-- Watch the progress in the GitHub Actions tab of your repository
-- Check the workflow run at: `https://github.com/quentinhsu/biome-config/actions`
-- Once successful, the new version will be available on npm
+- **GitHub Actions**: Check the workflow progress in the Actions tab
+- **GitHub Release**: Automatically created with changelog
+- **npm Package**: Published at `https://www.npmjs.com/package/@quentinhsu/biome-config`
 
 ## How Trusted Publishing Works
 
