@@ -143,7 +143,8 @@ To integrate Biome with VS Code, install the [Biome extension](https://marketpla
   },
   "editor.codeActionsOnSave": {
     "source.fixAll.biome": "explicit",
-    "source.organizeImports.biome": "explicit"
+    "source.organizeImports.biome": "explicit",
+    "source.action.useSortedKeys.biome": "explicit"
   }
 }
 ```
