@@ -2,6 +2,7 @@
   "name": "@quentinhsu/biome-config",
   "version": "0.2.0",
   "author": "QuentinHsu",
+  "license": "MIT",
   "repository": {
     "type": "git",
     "url": "git+https://github.com/QuentinHsu/biome-config.git"
