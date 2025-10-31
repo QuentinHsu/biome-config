@@ -24,7 +24,7 @@
     "generate:types": "tsx scripts/generate-biome-types.ts",
     "prebuild": "pnpm run generate:types",
     "build": "rslib build && node dist/build.mjs",
-    "dev": "tsx scripts/watch-build.ts",
+    "dev": "nodemon --exec tsx scripts/build-presets.ts",
     "lint": "npx biome check ."
   },
   "keywords": [
@@ -43,6 +43,7 @@
     "@rslib/core": "^0.17.0",
     "@types/node": "^24.9.1",
     "json-schema-to-typescript": "^15.0.4",
+    "nodemon": "^3.1.10",
     "tsx": "^4.16.2",
     "typescript": "^5.6.3"
   }

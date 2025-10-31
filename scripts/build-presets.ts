@@ -1,10 +1,8 @@
-import { watch } from 'node:fs';
 import { mkdir, writeFile } from 'node:fs/promises';
 import { dirname, join } from 'node:path';
 import { fileURLToPath } from 'node:url';
 
 const currentDir = dirname(fileURLToPath(import.meta.url));
-const srcDir = join(currentDir, '../src');
 const outputDir = join(currentDir, '../dist');
 
 const serialize = (config: unknown): string => `${JSON.stringify(config, null, 2)}\n`;
@@ -15,10 +13,10 @@ async function ensureDir(path: string) {
 
 async function buildJsonPresets() {
   try {
-    // 动态导入模块，避免缓存
-    const globalThisRecord = globalThis as Record<string, unknown>;
-    delete globalThisRecord.allPresetsCache;
-    const { allPresets } = await import('../src/index.ts');
+    // 使用时间戳绕过模块缓存
+    const importPath = join(currentDir, '../src/index.ts');
+    const importUrl = `${importPath}?t=${Date.now()}`;
+    const { allPresets } = await import(importUrl);
 
     await ensureDir(outputDir);
 
@@ -36,29 +34,12 @@ async function buildJsonPresets() {
   } catch (error) {
     // eslint-disable-next-line no-console
     console.error('Failed to generate Biome presets:', error);
+    throw error;
   }
 }
 
-async function watchSrc() {
-  // 初始构建
-  await buildJsonPresets();
-
+buildJsonPresets().catch(error => {
   // eslint-disable-next-line no-console
-  console.log('👀 Watching for changes...\n');
-
-  let timeout: NodeJS.Timeout;
-
-  watch(srcDir, { recursive: true }, (_eventType, _filename) => {
-    // 防抖：避免快速变化触发多次构建
-    clearTimeout(timeout);
-    timeout = setTimeout(() => {
-      buildJsonPresets();
-    }, 100);
-  });
-}
-
-watchSrc().catch(error => {
-  // eslint-disable-next-line no-console
-  console.error('Watch error:', error);
+  console.error('Build error:', error);
   process.exit(1);
 });
