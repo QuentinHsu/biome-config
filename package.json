@@ -22,7 +22,6 @@
   },
   "scripts": {
     "generate:types": "tsx scripts/generate-biome-types.ts",
-    "generate:changelog": "tsx scripts/generate-changelog.ts",
     "prebuild": "pnpm run generate:types",
     "build": "rslib build && node dist/build.mjs",
     "lint": "npx biome check ."
