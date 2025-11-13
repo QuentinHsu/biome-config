@@ -9,10 +9,10 @@ export { indexConfig, reactConfig, nextConfig, vueConfig, nuxtConfig };
 
 export const allPresets = Object.freeze({
   index: indexConfig,
-  react: reactConfig,
   next: nextConfig,
-  vue: vueConfig,
   nuxt: nuxtConfig,
+  react: reactConfig,
+  vue: vueConfig,
 });
 
 export type { BiomeConfig } from './types.ts';

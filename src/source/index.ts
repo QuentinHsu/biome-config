@@ -3,23 +3,6 @@ import type { BiomeConfig } from '../types.ts';
 
 export const indexConfig: BiomeConfig = {
   $schema: BIOME_SCHEMA_URL,
-  root: true,
-  vcs: {
-    enabled: true,
-    clientKind: 'git',
-    useIgnoreFile: true,
-    defaultBranch: 'main',
-  },
-  files: {
-    ignoreUnknown: true,
-    includes: ['**', '!**/build', '!**/dist', '!**/.next'],
-  },
-  formatter: {
-    enabled: true,
-    indentStyle: 'space',
-    lineWidth: 140,
-    formatWithErrors: true,
-  },
   assist: {
     actions: {
       source: {
@@ -29,20 +12,37 @@ export const indexConfig: BiomeConfig = {
             groups: [[':NODE:', ':BUN:', ':PACKAGE_WITH_PROTOCOL:', ':PACKAGE:'], ':BLANK_LINE:', ':ALIAS:', ':BLANK_LINE:', ':PATH:'],
           },
         },
-        useSortedKeys: 'on',
         useSortedAttributes: {
           level: 'on',
           options: {
             sortOrder: 'natural',
           },
         },
+        useSortedKeys: 'on',
       },
+    },
+  },
+  files: {
+    ignoreUnknown: true,
+    includes: ['**', '!**/build', '!**/dist', '!**/.next'],
+  },
+  formatter: {
+    enabled: true,
+    formatWithErrors: true,
+    indentStyle: 'space',
+    lineWidth: 140,
+  },
+  javascript: {
+    formatter: {
+      arrowParentheses: 'asNeeded',
+      jsxQuoteStyle: 'single',
+      quoteStyle: 'single',
+      trailingCommas: 'all',
     },
   },
   linter: {
     enabled: true,
     rules: {
-      recommended: true,
       complexity: {
         noUselessStringConcat: 'error',
         noUselessUndefinedInitialization: 'error',
@@ -52,58 +52,51 @@ export const indexConfig: BiomeConfig = {
       correctness: {
         noConstantMathMinMaxClamp: 'error',
         noUndeclaredVariables: 'error',
-        noUnusedImports: 'error',
         noUnusedFunctionParameters: 'error',
+        noUnusedImports: 'error',
         noUnusedPrivateClassMembers: 'error',
+        noUnusedVariables: 'error',
         useExhaustiveDependencies: {
           level: 'error',
           options: {
             reportUnnecessaryDependencies: false,
           },
         },
-        noUnusedVariables: 'error',
-      },
-      style: {
-        noParameterProperties: 'error',
-        noYodaExpression: 'error',
-        useConsistentBuiltinInstantiation: 'error',
-        useFragmentSyntax: 'error',
-        useImportType: {
-          level: 'error',
-          fix: 'safe',
-          options: {
-            style: 'separatedType',
-          },
-        },
-        useSelfClosingElements: {
-          level: 'error',
-          fix: 'safe',
-          options: {},
-        },
-        useShorthandAssign: 'error',
-        useArrayLiterals: 'error',
       },
       nursery: {
         useSortedClasses: {
-          level: 'error',
           fix: 'safe',
+          level: 'error',
           options: {
             functions: ['clsx', 'cn'],
           },
         },
       },
-      suspicious: {
-        useAwait: 'error',
-        noEvolvingTypes: 'error',
+      recommended: true,
+      style: {
+        noParameterProperties: 'error',
+        noYodaExpression: 'error',
+        useArrayLiterals: 'error',
+        useConsistentBuiltinInstantiation: 'error',
+        useFragmentSyntax: 'error',
+        useImportType: {
+          fix: 'safe',
+          level: 'error',
+          options: {
+            style: 'separatedType',
+          },
+        },
+        useSelfClosingElements: {
+          fix: 'safe',
+          level: 'error',
+          options: {},
+        },
+        useShorthandAssign: 'error',
       },
-    },
-  },
-  javascript: {
-    formatter: {
-      quoteStyle: 'single',
-      jsxQuoteStyle: 'single',
-      arrowParentheses: 'asNeeded',
-      trailingCommas: 'all',
+      suspicious: {
+        noEvolvingTypes: 'error',
+        useAwait: 'error',
+      },
     },
   },
   overrides: [
@@ -128,4 +121,11 @@ export const indexConfig: BiomeConfig = {
       },
     },
   ],
+  root: true,
+  vcs: {
+    clientKind: 'git',
+    defaultBranch: 'main',
+    enabled: true,
+    useIgnoreFile: true,
+  },
 };

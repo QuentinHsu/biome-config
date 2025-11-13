@@ -1,42 +1,6 @@
 {
-  "name": "@quentinhsu/biome-config",
-  "version": "0.3.3",
   "author": "QuentinHsu",
-  "license": "MIT",
-  "repository": {
-    "type": "git",
-    "url": "git+https://github.com/QuentinHsu/biome-config.git"
-  },
   "description": "Modular Biome configuration presets.",
-  "type": "module",
-  "packageManager": "pnpm@9.15.0",
-  "files": [
-    "dist"
-  ],
-  "exports": {
-    ".": "./dist/index.jsonc",
-    "./react": "./dist/react.jsonc",
-    "./next": "./dist/next.jsonc",
-    "./vue": "./dist/vue.jsonc",
-    "./nuxt": "./dist/nuxt.jsonc"
-  },
-  "scripts": {
-    "generate:types": "tsx scripts/generate-biome-types.ts",
-    "prebuild": "pnpm run generate:types",
-    "build": "rslib build && node dist/build.mjs",
-    "dev": "nodemon --exec tsx scripts/build-presets.ts",
-    "lint": "npx biome check ."
-  },
-  "keywords": [
-    "biome",
-    "config",
-    "lint",
-    "formatter"
-  ],
-  "publishConfig": {
-    "provenance": true,
-    "access": "public"
-  },
   "devDependencies": {
     "@biomejs/biome": "2.3.2",
     "@quentinhsu/biome-config": "workspace:*",
@@ -46,5 +10,42 @@
     "nodemon": "^3.1.10",
     "tsx": "^4.16.2",
     "typescript": "^5.6.3"
-  }
+  },
+  "exports": {
+    ".": "./dist/index.jsonc",
+    "./next": "./dist/next.jsonc",
+    "./nuxt": "./dist/nuxt.jsonc",
+    "./react": "./dist/react.jsonc",
+    "./vue": "./dist/vue.jsonc"
+  },
+  "files": [
+    "dist"
+  ],
+  "keywords": [
+    "biome",
+    "config",
+    "lint",
+    "formatter"
+  ],
+  "license": "MIT",
+  "name": "@quentinhsu/biome-config",
+  "packageManager": "pnpm@9.15.0",
+  "publishConfig": {
+    "access": "public",
+    "provenance": true
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/QuentinHsu/biome-config.git"
+  },
+  "scripts": {
+    "build": "rslib build && node dist/build.mjs",
+    "dev": "nodemon --exec tsx scripts/build-presets.ts",
+    "generate:types": "tsx scripts/generate-biome-types.ts",
+    "lint": "npx biome check .",
+    "lint:fix": "biome format --write .",
+    "prebuild": "pnpm run generate:types"
+  },
+  "type": "module",
+  "version": "0.3.3"
 }

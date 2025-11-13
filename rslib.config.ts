@@ -1,19 +1,12 @@
 import { defineConfig } from '@rslib/core';
 
 export default defineConfig({
-  output: {
-    target: 'node',
-  },
   lib: [
     {
-      format: 'esm',
-      source: {
-        entry: {
-          index: './src/index.ts',
-          build: './src/build.ts',
-        },
-        tsconfigPath: './tsconfig.json',
+      dts: {
+        distPath: './dist/types',
       },
+      format: 'esm',
       output: {
         distPath: {
           root: './dist',
@@ -22,9 +15,16 @@ export default defineConfig({
           js: '[name].mjs',
         },
       },
-      dts: {
-        distPath: './dist/types',
+      source: {
+        entry: {
+          build: './src/build.ts',
+          index: './src/index.ts',
+        },
+        tsconfigPath: './tsconfig.json',
       },
     },
   ],
+  output: {
+    target: 'node',
+  },
 });

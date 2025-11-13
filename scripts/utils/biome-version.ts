@@ -34,5 +34,5 @@ export async function updateBiomeConstantsFile(): Promise<{ version: string; sch
 export const BIOME_SCHEMA_URL = '${schemaUrl}' as const;\n`;
 
   await writeFile(BIOME_TS_PATH, content, 'utf-8');
-  return { version: biomejsVersion, schemaUrl };
+  return { schemaUrl, version: biomejsVersion };
 }
