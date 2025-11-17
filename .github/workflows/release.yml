@@ -58,7 +58,7 @@ jobs:
           fetch-depth: 0
 
       - name: Generate GitHub Changelog
-        run: pnpx changelogithub
+        run: pnpm dlx changelogithub
         continue-on-error: false
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
