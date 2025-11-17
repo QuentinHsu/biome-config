@@ -135,15 +135,15 @@ export interface NoLabelWithoutControlOptions {
   /**
    * Array of component names that should be considered the same as an `input` element.
    */
-  inputComponents?: string[];
+  inputComponents?: string[] | null;
   /**
    * Array of attributes that should be treated as the `label` accessible text content.
    */
-  labelAttributes?: string[];
+  labelAttributes?: string[] | null;
   /**
    * Array of component names that should be considered the same as a `label` element.
    */
-  labelComponents?: string[];
+  labelComponents?: string[] | null;
 }
 
 export interface NoNoninteractiveElementInteractionsOptions {}
@@ -200,11 +200,11 @@ export interface UseValidAriaRoleOptions {
   /**
    * It allows specifying a list of roles that might be invalid otherwise
    */
-  allowInvalidRoles?: string[];
+  allowInvalidRoles?: string[] | null;
   /**
    * Use this option to ignore non-DOM elements, such as custom components
    */
-  ignoreNonDom?: boolean;
+  ignoreNonDom?: boolean | null;
 }
 
 export interface UseValidAriaValuesOptions {}
@@ -213,7 +213,7 @@ export interface UseValidAutocompleteOptions {
   /**
    * `input` like custom components that should be checked.
    */
-  inputComponents?: string[];
+  inputComponents?: string[] | null;
 }
 
 export interface UseValidLangOptions {}
@@ -232,22 +232,22 @@ export interface NoExcessiveCognitiveComplexityOptions {
   /**
    * The maximum complexity score that we allow. Anything higher is considered excessive.
    */
-  maxAllowedComplexity?: number;
+  maxAllowedComplexity?: number | null;
 }
 
 export interface NoExcessiveLinesPerFunctionOptions {
   /**
    * The maximum number of lines allowed in a function body.
    */
-  maxLines?: number;
+  maxLines?: number | null;
   /**
    * When this options is set to `true`, blank lines in the function body are not counted towards the maximum line limit.
    */
-  skipBlankLines?: boolean;
+  skipBlankLines?: boolean | null;
   /**
    * When this option is set to `true`, Immediately Invoked Function Expressions (IIFEs) are not checked for the maximum line limit.
    */
-  skipIifes?: boolean;
+  skipIifes?: boolean | null;
 }
 
 export interface NoExcessiveNestedTestSuitesOptions {}
@@ -260,7 +260,7 @@ export interface NoForEachOptions {
   /**
    * A list of variable names allowed for `forEach` calls.
    */
-  allowedIdentifiers?: string[];
+  allowedIdentifiers?: string[] | null;
 }
 
 export interface NoImplicitCoercionsOptions {}

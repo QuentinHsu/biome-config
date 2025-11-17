@@ -2,7 +2,7 @@
   "author": "QuentinHsu",
   "description": "Modular Biome configuration presets.",
   "devDependencies": {
-    "@biomejs/biome": "2.3.6",
+    "@biomejs/biome": "2.3.5",
     "@quentinhsu/biome-config": "workspace:*",
     "@rslib/core": "0.18.0",
     "@types/node": "^24.9.1",

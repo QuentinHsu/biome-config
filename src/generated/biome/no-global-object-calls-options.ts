@@ -57,7 +57,7 @@ export interface NoUndeclaredVariablesOptions {
   /**
    * Check undeclared types.
    */
-  checkTypes?: boolean;
+  checkTypes?: boolean | null;
 }
 
 export interface NoUnknownFunctionOptions {}
@@ -88,7 +88,7 @@ export interface NoUnusedFunctionParametersOptions {
   /**
    * Whether to ignore unused variables from an object destructuring with a spread.
    */
-  ignoreRestSiblings?: boolean;
+  ignoreRestSiblings?: boolean | null;
 }
 
 export interface NoUnusedImportsOptions {}
@@ -101,7 +101,7 @@ export interface NoUnusedVariablesOptions {
   /**
    * Whether to ignore unused variables from an object destructuring with a spread.
    */
-  ignoreRestSiblings?: boolean;
+  ignoreRestSiblings?: boolean | null;
 }
 
 export interface NoVoidElementsWithChildrenOptions {}
@@ -120,7 +120,7 @@ export interface UseImportExtensionsOptions {
   /**
    * If `true`, the suggested extension is always `.js` regardless of what extension the source file has in your project.
    */
-  forceJsExtensions?: boolean;
+  forceJsExtensions?: boolean | null;
 }
 
 export interface UseIsNanOptions {}
@@ -131,7 +131,7 @@ export interface UseJsxKeyInIterableOptions {
   /**
    * Set to `true` to check shorthand fragments (`<></>`)
    */
-  checkShorthandFragments?: boolean;
+  checkShorthandFragments?: boolean | null;
 }
 
 export interface UseParseIntRadixOptions {}
@@ -144,7 +144,7 @@ export interface UseUniqueElementIdsOptions {
   /**
    * Component names that accept an `id` prop that does not translate to a DOM element id.
    */
-  excludedComponents?: string[];
+  excludedComponents?: string[] | null;
 }
 
 export interface UseValidForDirectionOptions {}
@@ -152,6 +152,8 @@ export interface UseValidForDirectionOptions {}
 export interface UseValidTypeofOptions {}
 
 export interface UseYieldOptions {}
+
+export interface NoContinueOptions {}
 
 export interface NoDeprecatedImportsOptions {}
 
@@ -161,7 +163,7 @@ export interface NoEmptySourceOptions {
   /**
    * Whether comments are considered meaningful
    */
-  allowComments?: boolean;
+  allowComments?: boolean | null;
 }
 
 export interface NoFloatingPromisesOptions {}
@@ -170,38 +172,44 @@ export interface NoImportCyclesOptions {
   /**
    * Ignores type-only imports when finding an import cycle. A type-only import (`import type`) will be removed by the compiler, so it cuts an import cycle at runtime. Note that named type imports (`import { type Foo }`) aren't considered as type-only because it's not removed by the compiler if the `verbatimModuleSyntax` option is enabled. Enabled by default.
    */
-  ignoreTypes?: boolean;
+  ignoreTypes?: boolean | null;
 }
 
 export interface NoIncrementDecrementOptions {
   /**
    * Allows unary operators ++ and -- in the afterthought (final expression) of a for loop.
    */
-  allowForLoopAfterthoughts?: boolean;
+  allowForLoopAfterthoughts?: boolean | null;
 }
 
 export interface NoJsxLiteralsOptions {
   /**
    * An array of strings that won't trigger the rule. Whitespaces are taken into consideration
    */
-  allowedStrings?: string[];
+  allowedStrings?: string[] | null;
   /**
    * When enabled, strings inside props are always ignored
    */
-  ignoreProps?: boolean;
+  ignoreProps?: boolean | null;
   /**
    * When enabled, also flag string literals inside JSX expressions and attributes
    */
-  noStrings?: boolean;
+  noStrings?: boolean | null;
 }
 
 export interface NoMisusedPromisesOptions {}
 
 export interface NoNextAsyncClientComponentOptions {}
 
+export interface NoParametersOnlyUsedInRecursionOptions {}
+
 export interface NoReactForwardRefOptions {}
 
 export interface NoShadowOptions {}
+
+export interface NoUnknownAttributeOptions {
+  ignore?: string[] | null;
+}
 
 export interface NoUnnecessaryConditionsOptions {}
 
@@ -224,10 +232,12 @@ export interface NoVueReservedKeysOptions {}
 
 export interface NoVueReservedPropsOptions {}
 
+export interface UseArraySortCompareOptions {}
+
 export type UseConsistentArrowReturnStyle = 'asNeeded' | 'always' | 'never';
 
 export interface UseDeprecatedDateOptions {
-  argumentName?: string;
+  argumentName?: string | null;
 }
 
 export interface UseExhaustiveSwitchCasesOptions {}
@@ -238,7 +248,7 @@ export interface UseMaxParamsOptions {
   /**
    * Maximum number of parameters allowed (default: 4)
    */
-  max?: number;
+  max?: number | null;
 }
 
 export interface UseQwikMethodUsageOptions {}
@@ -260,7 +270,7 @@ export interface UseVueDefineMacrosOrderOptions {
   /**
    * The order of the Vue define macros.
    */
-  order?: string[];
+  order?: string[] | null;
 }
 
 export interface UseVueMultiWordComponentNamesOptions {
@@ -302,7 +312,7 @@ export interface NoBlankTargetOptions {
   /**
    * Whether `noreferrer` is allowed in addition to `noopener`.
    */
-  allowNoReferrer?: boolean;
+  allowNoReferrer?: boolean | null;
 }
 
 export interface NoDangerouslySetInnerHtmlOptions {}
@@ -335,12 +345,4 @@ export interface NoHeadElementOptions {}
 export interface NoImplicitBooleanOptions {}
 
 export interface NoInferrableTypesOptions {}
-
-export interface NoMagicNumbersOptions {}
-
-export interface NoNamespaceOptions {}
-
-export interface NoNegationElseOptions {}
-
-export interface NoNestedTernaryOptions {}
 
