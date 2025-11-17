@@ -3,7 +3,7 @@
   "description": "Modular Biome configuration presets.",
   "devDependencies": {
     "@biomejs/biome": "2.3.5",
-    "@quentinhsu/biome-config": "workspace:*",
+    "@quentinhsu/biome-config": "0.3.3",
     "@rslib/core": "0.18.0",
     "@types/node": "^24.9.1",
     "json-schema-to-typescript": "^15.0.4",

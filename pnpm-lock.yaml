@@ -12,8 +12,8 @@ importers:
         specifier: 2.3.5
         version: 2.3.5
       '@quentinhsu/biome-config':
-        specifier: workspace:*
-        version: 'link:'
+        specifier: 0.3.3
+        version: 0.3.3
       '@rslib/core':
         specifier: 0.18.0
         version: 0.18.0(typescript@5.9.3)
@@ -338,6 +338,9 @@ packages:
 
   '@napi-rs/wasm-runtime@1.0.7':
     resolution: {integrity: sha512-SeDnOO0Tk7Okiq6DbXmmBODgOAb9dp9gjlphokTUxmt8U3liIP1ZsozBahH69j/RJv+Rfs6IwUKHTgQYJ/HBAw==}
+
+  '@quentinhsu/biome-config@0.3.3':
+    resolution: {integrity: sha512-97sISdBz9tR6XguI9fmt5/sIK+DAH2xGmZLxGXdgOuannNiSUgejbPRepY2NPCLAU35oli1a0wQZEa85PzI1KQ==}
 
   '@rsbuild/core@1.6.6':
     resolution: {integrity: sha512-QE1MvRFKDeeQUAwZrCPhEHgvy/XieYQj0aPho1SkkL/M4ruonp/p8ymhUJZE5wFQxIhBHaOvE2gwKnME0XQgKg==}
@@ -855,6 +858,8 @@ snapshots:
       '@emnapi/runtime': 1.6.0
       '@tybys/wasm-util': 0.10.1
     optional: true
+
+  '@quentinhsu/biome-config@0.3.3': {}
 
   '@rsbuild/core@1.6.6':
     dependencies:
