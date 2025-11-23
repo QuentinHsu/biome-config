@@ -37,6 +37,9 @@ export interface NoReactPropAssignmentsOptions {}
 
 export interface NoRenderReturnValueOptions {}
 
+/**
+ * Elements to restrict. Each key is the element name, and the value is the message to show when the element is used.
+ */
 export interface CustomRestrictedElements {
   [k: string]: string;
 }
@@ -118,7 +121,8 @@ export type UseImageSizeOptions = null;
 
 export interface UseImportExtensionsOptions {
   /**
-   * If `true`, the suggested extension is always `.js` regardless of what extension the source file has in your project.
+   * If `true`, the suggested extension is always `.js` regardless of what
+   * extension the source file has in your project.
    */
   forceJsExtensions?: boolean | null;
 }
@@ -142,7 +146,8 @@ export interface UseSingleJsDocAsteriskOptions {}
 
 export interface UseUniqueElementIdsOptions {
   /**
-   * Component names that accept an `id` prop that does not translate to a DOM element id.
+   * Component names that accept an `id` prop that does not translate
+   * to a DOM element id.
    */
   excludedComponents?: string[] | null;
 }
@@ -168,9 +173,14 @@ export interface NoEmptySourceOptions {
 
 export interface NoFloatingPromisesOptions {}
 
+export interface NoForInOptions {}
+
 export interface NoImportCyclesOptions {
   /**
-   * Ignores type-only imports when finding an import cycle. A type-only import (`import type`) will be removed by the compiler, so it cuts an import cycle at runtime. Note that named type imports (`import { type Foo }`) aren't considered as type-only because it's not removed by the compiler if the `verbatimModuleSyntax` option is enabled. Enabled by default.
+   * Ignores type-only imports when finding an import cycle. A type-only import (`import type`)
+   * will be removed by the compiler, so it cuts an import cycle at runtime. Note that named type
+   * imports (`import { type Foo }`) aren't considered as type-only because it's not removed by
+   * the compiler if the `verbatimModuleSyntax` option is enabled. Enabled by default.
    */
   ignoreTypes?: boolean | null;
 }
@@ -207,6 +217,8 @@ export interface NoReactForwardRefOptions {}
 
 export interface NoShadowOptions {}
 
+export interface NoSyncScriptsOptions {}
+
 export interface NoUnknownAttributeOptions {
   ignore?: string[] | null;
 }
@@ -218,7 +230,8 @@ export interface NoUnresolvedImportsOptions {}
 export interface NoUnusedExpressionsOptions {}
 
 /**
- * Options for the `noUselessCatchBinding` rule. Currently empty; reserved for future extensions (e.g. allowlist of names).
+ * Options for the `noUselessCatchBinding` rule.
+ * Currently empty; reserved for future extensions (e.g. allowlist of names).
  */
 export interface NoUselessCatchBindingOptions {}
 
@@ -232,9 +245,16 @@ export interface NoVueReservedKeysOptions {}
 
 export interface NoVueReservedPropsOptions {}
 
+export interface NoVueVIfWithVForOptions {}
+
 export interface UseArraySortCompareOptions {}
 
 export type UseConsistentArrowReturnStyle = 'asNeeded' | 'always' | 'never';
+
+/**
+ * The GraphQL description style to enforce.
+ */
+export type UseConsistentGraphqlDescriptionsStyle = 'block' | 'inline';
 
 export interface UseDeprecatedDateOptions {
   argumentName?: string | null;
@@ -243,6 +263,8 @@ export interface UseDeprecatedDateOptions {
 export interface UseExhaustiveSwitchCasesOptions {}
 
 export interface UseExplicitTypeOptions {}
+
+export interface UseFindOptions {}
 
 export interface UseMaxParamsOptions {
   /**
@@ -266,11 +288,26 @@ export interface UseSortedClassesOptions {
   functions?: string[] | null;
 }
 
+export interface UseSpreadOptions {}
+
+export interface UseUniqueGraphqlOperationNameOptions {}
+
 export interface UseVueDefineMacrosOrderOptions {
   /**
    * The order of the Vue define macros.
    */
   order?: string[] | null;
+}
+
+export interface UseVueHyphenatedAttributesOptions {
+  /**
+   * List of attribute names to ignore when checking for hyphenated attributes.
+   */
+  ignore?: string[] | null;
+  /**
+   * List of HTML tags to ignore when checking for hyphenated attributes.
+   */
+  ignoreTags?: string[] | null;
 }
 
 export interface UseVueMultiWordComponentNamesOptions {
@@ -279,6 +316,25 @@ export interface UseVueMultiWordComponentNamesOptions {
    */
   ignores?: string[];
 }
+
+export interface UseVueValidVBindOptions {}
+
+export interface UseVueValidVElseOptions {}
+
+export interface UseVueValidVElseIfOptions {}
+
+export interface UseVueValidVHtmlOptions {}
+
+export interface UseVueValidVIfOptions {}
+
+export interface UseVueValidVOnOptions {
+  /**
+   * Additional modifiers that should be considered valid
+   */
+  modifiers?: string[] | null;
+}
+
+export interface UseVueValidVTextOptions {}
 
 export interface NoAccumulatingSpreadOptions {}
 
@@ -301,48 +357,4 @@ export interface NoUnwantedPolyfillioOptions {}
 export interface UseGoogleFontPreconnectOptions {}
 
 export interface UseSolidForComponentOptions {}
-
-export interface UseTopLevelRegexOptions {}
-
-export interface NoBlankTargetOptions {
-  /**
-   * List of domains where `target="_blank"` is allowed without `rel="noopener"`.
-   */
-  allowDomains?: string[];
-  /**
-   * Whether `noreferrer` is allowed in addition to `noopener`.
-   */
-  allowNoReferrer?: boolean | null;
-}
-
-export interface NoDangerouslySetInnerHtmlOptions {}
-
-export interface NoDangerouslySetInnerHtmlWithChildrenOptions {}
-
-export interface NoGlobalEvalOptions {}
-
-export interface NoSecretsOptions {
-  /**
-   * Set entropy threshold (default is 41).
-   */
-  entropyThreshold?: number | null;
-}
-
-export interface NoCommonJsOptions {}
-
-export interface NoDefaultExportOptions {}
-
-export interface NoDescendingSpecificityOptions {}
-
-export interface NoDoneCallbackOptions {}
-
-export interface NoEnumOptions {}
-
-export interface NoExportedImportsOptions {}
-
-export interface NoHeadElementOptions {}
-
-export interface NoImplicitBooleanOptions {}
-
-export interface NoInferrableTypesOptions {}
 

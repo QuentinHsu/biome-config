@@ -21,13 +21,16 @@ export type NegatablePredefinedSourceMatcher =
   | '!:PATH:'
   | '!:URL:';
 
-export type Glob = string;
-
 export type SortOrder = 'natural' | 'lexicographic';
 
 export interface UseSortedPropertiesOptions {}
 
 export type Bool = boolean;
+
+/**
+ * Normalized Biome glob pattern that strips `./` from the pattern.
+ */
+export type NormalizedGlob = string;
 
 export type IndentStyle = 'tab' | 'space';
 
@@ -76,11 +79,23 @@ export type SelfCloseVoidElements = 'never' | 'always';
  *
  * The following two cases won't produce the same output:
  *
- * |                |      html      |    output    | | -------------- | :------------: | :----------: | | with spaces    | `1<b> 2 </b>3` | 1<b> 2 </b>3 | | without spaces |  `1<b>2</b>3`  |  1<b>2</b>3  |
+ * |                |      html      |    output    |
+ * | -------------- | :------------: | :----------: |
+ * | with spaces    | `1<b> 2 </b>3` | 1<b> 2 </b>3 |
+ * | without spaces |  `1<b>2</b>3`  |  1<b>2</b>3  |
  *
  * This happens because whitespace is significant in inline elements.
  *
- * As a consequence of this, the formatter must format blocks that look like this (assume a small line width, <20): ```html <span>really long content</span> ``` as this, where the content hugs the tags: ```html <span >really long content</span > ```
+ * As a consequence of this, the formatter must format blocks that look like this (assume a small line width, <20):
+ * ```html
+ * <span>really long content</span>
+ * ```
+ * as this, where the content hugs the tags:
+ * ```html
+ * <span
+ *    >really long content</span
+ * >
+ * ```
  *
  * Note that this is only necessary for inline elements. Block elements do not have this restriction.
  */
@@ -95,16 +110,19 @@ export type QuoteProperties = 'asNeeded' | 'preserve';
 export type Semicolons = 'always' | 'asNeeded';
 
 /**
- * Print trailing commas wherever possible in multi-line comma-separated syntactic structures.
+ * Print trailing commas wherever possible in multi-line comma-separated syntactic structures for JavaScript/TypeScript files.
  */
-export type TrailingCommas = 'all' | 'es5' | 'none';
+export type JsTrailingCommas = 'all' | 'es5' | 'none';
 
 /**
  * Indicates the type of runtime or transformation used for interpreting JSX.
  */
 export type JsxRuntime = 'transparent' | 'reactClassic';
 
-export type TrailingCommas2 = 'none' | 'all';
+/**
+ * Print trailing commas wherever possible in multi-line comma-separated syntactic structures for JSON files.
+ */
+export type JsonTrailingCommas = 'none' | 'all';
 
 export type RuleDomainValue = 'all' | 'none' | 'recommended';
 
