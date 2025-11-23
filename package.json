@@ -44,6 +44,7 @@
     "generate:types": "tsx scripts/generate-biome-types.ts",
     "lint": "npx biome check .",
     "lint:fix": "biome format --write .",
+    "postinstall": "pnpm run generate:types",
     "prebuild": "pnpm run generate:types"
   },
   "type": "module",
