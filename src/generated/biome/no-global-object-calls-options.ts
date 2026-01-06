@@ -158,11 +158,22 @@ export interface UseValidTypeofOptions {}
 
 export interface UseYieldOptions {}
 
+export interface NoAmbiguousAnchorTextOptions {
+  /**
+   * It allows users to modify the strings that can be checked for in the anchor text. Useful for specifying other words in other languages
+   */
+  words?: string[] | null;
+}
+
+export interface NoBeforeInteractiveScriptOutsideDocumentOptions {}
+
 export interface NoContinueOptions {}
 
 export interface NoDeprecatedImportsOptions {}
 
 export interface NoDuplicateDependenciesOptions {}
+
+export interface NoDuplicatedSpreadPropsOptions {}
 
 export interface NoEmptySourceOptions {
   /**
@@ -170,6 +181,8 @@ export interface NoEmptySourceOptions {
    */
   allowComments?: boolean | null;
 }
+
+export interface NoEqualsToNullOptions {}
 
 export interface NoFloatingPromisesOptions {}
 
@@ -207,17 +220,37 @@ export interface NoJsxLiteralsOptions {
   noStrings?: boolean | null;
 }
 
+export interface NoJsxPropsBindOptions {}
+
+export interface NoLeakedRenderOptions {
+  [k: string]: unknown;
+}
+
 export interface NoMisusedPromisesOptions {}
+
+export interface NoMultiAssignOptions {}
+
+export interface NoMultiStrOptions {}
 
 export interface NoNextAsyncClientComponentOptions {}
 
 export interface NoParametersOnlyUsedInRecursionOptions {}
 
+export interface NoProtoOptions {}
+
 export interface NoReactForwardRefOptions {}
+
+export interface NoReturnAssignOptions {}
+
+export interface NoScriptUrlOptions {}
 
 export interface NoShadowOptions {}
 
 export interface NoSyncScriptsOptions {}
+
+export interface NoTernaryOptions {}
+
+export type Regex = string;
 
 export interface NoUnknownAttributeOptions {
   ignore?: string[] | null;
@@ -245,9 +278,13 @@ export interface NoVueReservedKeysOptions {}
 
 export interface NoVueReservedPropsOptions {}
 
+export interface NoVueSetupPropsReactivityLossOptions {}
+
 export interface NoVueVIfWithVForOptions {}
 
 export interface UseArraySortCompareOptions {}
+
+export interface UseAwaitThenableOptions {}
 
 export type UseConsistentArrowReturnStyle = 'asNeeded' | 'always' | 'never';
 
@@ -259,6 +296,8 @@ export type UseConsistentGraphqlDescriptionsStyle = 'block' | 'inline';
 export interface UseDeprecatedDateOptions {
   argumentName?: string | null;
 }
+
+export interface UseDestructuringOptions {}
 
 export interface UseExhaustiveSwitchCasesOptions {}
 
@@ -277,6 +316,15 @@ export interface UseQwikMethodUsageOptions {}
 
 export interface UseQwikValidLexicalScopeOptions {}
 
+export interface UseRegexpExecOptions {}
+
+export interface UseRequiredScriptsOptions {
+  /**
+   * List of script names that must be present in package.json
+   */
+  requiredScripts?: string[];
+}
+
 export interface UseSortedClassesOptions {
   /**
    * Additional attributes that will be sorted.
@@ -290,71 +338,11 @@ export interface UseSortedClassesOptions {
 
 export interface UseSpreadOptions {}
 
+export interface UseUniqueArgumentNamesOptions {}
+
+export interface UseUniqueFieldDefinitionNamesOptions {}
+
 export interface UseUniqueGraphqlOperationNameOptions {}
 
-export interface UseVueDefineMacrosOrderOptions {
-  /**
-   * The order of the Vue define macros.
-   */
-  order?: string[] | null;
-}
-
-export interface UseVueHyphenatedAttributesOptions {
-  /**
-   * List of attribute names to ignore when checking for hyphenated attributes.
-   */
-  ignore?: string[] | null;
-  /**
-   * List of HTML tags to ignore when checking for hyphenated attributes.
-   */
-  ignoreTags?: string[] | null;
-}
-
-export interface UseVueMultiWordComponentNamesOptions {
-  /**
-   * Component names to ignore (allowed to be single-word).
-   */
-  ignores?: string[];
-}
-
-export interface UseVueValidVBindOptions {}
-
-export interface UseVueValidVElseOptions {}
-
-export interface UseVueValidVElseIfOptions {}
-
-export interface UseVueValidVHtmlOptions {}
-
-export interface UseVueValidVIfOptions {}
-
-export interface UseVueValidVOnOptions {
-  /**
-   * Additional modifiers that should be considered valid
-   */
-  modifiers?: string[] | null;
-}
-
-export interface UseVueValidVTextOptions {}
-
-export interface NoAccumulatingSpreadOptions {}
-
-export interface NoAwaitInLoopsOptions {}
-
-export interface NoBarrelFileOptions {}
-
-export interface NoDeleteOptions {}
-
-export interface NoDynamicNamespaceImportAccessOptions {}
-
-export interface NoImgElementOptions {}
-
-export interface NoNamespaceImportOptions {}
-
-export interface NoReExportAllOptions {}
-
-export interface NoUnwantedPolyfillioOptions {}
-
-export interface UseGoogleFontPreconnectOptions {}
-
-export interface UseSolidForComponentOptions {}
+export interface UseUniqueInputFieldNamesOptions {}
 
