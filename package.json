@@ -47,8 +47,9 @@
     "lint:fix": "biome format --write .",
     "postinstall": "pnpm run generate:types",
     "prebuild": "pnpm run generate:types",
+    "release:tag": "tsx scripts/tag-release.ts",
     "validate:config": "tsx scripts/validate-config-properties.ts"
   },
   "type": "module",
-  "version": "0.3.5"
+  "version": "0.4.0"
 }

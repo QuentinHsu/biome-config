@@ -14,6 +14,8 @@ This project uses an automated release workflow with npm Trusted Publishers (OID
    - Build the package
    - Generate changelog and create GitHub Release
    - Publish to npm
+ 
+If you'd rather avoid memorizing npm commands, you can run `pnpm run release:tag`. The script checks that your working tree is clean, prompts for the desired version (patch/minor/major/custom), runs `pnpm version` with that target, and leaves you with the newly created `v<version>` tag ready to push.
 
 That's it! ✨
 
