@@ -3,6 +3,12 @@ import { mergeConfigs } from '../utils/merge.ts';
 import { vueConfig } from './vue.ts';
 
 const nuxtOverlay: BiomeConfig = {
+  css: {
+    parser: {
+      cssModules: true,
+      tailwindDirectives: true,
+    },
+  },
   files: {
     includes: ['!**/.nuxt', '!**/.nitro', '!**/.output'],
   },
@@ -40,6 +46,33 @@ const nuxtOverlay: BiomeConfig = {
       'useRoute',
       'useRequestEvent',
       'useRequestHeaders',
+      // Vue Composition API
+      'computed',
+      'ref',
+      'watch',
+      'onMounted',
+      'onUnmounted',
+      // Component helpers
+      'defineProps',
+      'defineEmits',
+      // Additional composables
+      'useColorMode',
+      'useUserSession',
+      '$fetch',
+      // Server utils
+      'readBody',
+      'getQuery',
+      'readFormData',
+      'createError',
+      'getRequestURL',
+      'getUserSession',
+      'getHeader',
+      'getRouterParam',
+      'defineOAuthGitHubEventHandler',
+      'sendRedirect',
+      'setHeader',
+      'setUserSession',
+      'clearUserSession',
     ],
   },
   overrides: [
