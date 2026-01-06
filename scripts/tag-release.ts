@@ -1,5 +1,5 @@
-import { execFile, spawn } from 'node:child_process';
-import { readFile } from 'node:fs/promises';
+import { execFile } from 'node:child_process';
+import { readFile, writeFile } from 'node:fs/promises';
 import { stdin, stdout } from 'node:process';
 import { createInterface } from 'node:readline/promises';
 import { fileURLToPath } from 'node:url';
@@ -32,6 +32,13 @@ async function readCurrentVersion(): Promise<string> {
   return version;
 }
 
+async function updateVersionInPackageJson(newVersion: string) {
+  const contents = await readFile(packageJsonPath, 'utf8');
+  const packageJson = JSON.parse(contents) as PackageJson;
+  packageJson.version = newVersion;
+  await writeFile(packageJsonPath, JSON.stringify(packageJson, null, 2) + '\n', 'utf8');
+}
+
 function bumpVersion(current: string, kind: ReleaseChoice): string {
   const base = current.split('-')[0];
   const segments = base.split('.').map(Number);
@@ -61,23 +68,10 @@ async function ensureCleanWorkingTree(rootPath: string) {
   }
 }
 
-async function runVersionCommand(versionSpecifier: string) {
-  await new Promise<void>((resolve, reject) => {
-    const child = spawn('pnpm', ['version', versionSpecifier, '--message', 'chore: bump version to %s'], {
-      cwd: projectRootPath,
-      stdio: 'inherit',
-    });
-
-    child.on('close', code => {
-      if (code === 0) {
-        resolve();
-      } else {
-        reject(new Error(`pnpm exited with code ${code}`));
-      }
-    });
-
-    child.on('error', reject);
-  });
+async function commitAndTag(version: string) {
+  await execFileAsync('git', ['add', 'package.json', 'pnpm-lock.yaml'], { cwd: projectRootPath });
+  await execFileAsync('git', ['commit', '-m', `chore: bump version to ${version}`], { cwd: projectRootPath });
+  await execFileAsync('git', ['tag', '--no-sign', `v${version}`], { cwd: projectRootPath });
 }
 
 async function main() {
@@ -110,13 +104,14 @@ async function main() {
     }
 
     console.log(`\n将创建的标签: v${targetVersion}`);
-    const confirm = (await rl.question('确认要运行 pnpm version 吗？(y/N): ')).trim().toLowerCase();
+    const confirm = (await rl.question('确认要更新版本并创建标签吗？(y/N): ')).trim().toLowerCase();
     if (confirm !== 'y' && confirm !== 'yes') {
       console.log('操作已取消。');
       return;
     }
 
-    await runVersionCommand(targetVersion);
+    await updateVersionInPackageJson(targetVersion);
+    await commitAndTag(targetVersion);
     console.log('\n✅ 版本更新完成。请运行 git push origin main && git push origin v' + targetVersion);
   } finally {
     rl.close();
