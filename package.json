@@ -51,5 +51,5 @@
     "validate:config": "tsx scripts/validate-config-properties.ts"
   },
   "type": "module",
-  "version": "0.4.0"
+  "version": "0.5.0"
 }
